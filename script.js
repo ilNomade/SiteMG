@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function loadProjectArticle(projectId) {
-        const filePath = `progetti/${projectId}.html`;
+        const filePath = `projects/${projectId}.html`; // CORRETTO
         try {
             const response = await fetch(filePath);
             if (!response.ok) {
