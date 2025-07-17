@@ -1,18 +1,20 @@
 // Seleziona gli elementi dal DOM
+const homeContainer = document.getElementById('home-container');
+const progettiContainer = document.getElementById('progetti-container');
 const draggables = document.querySelectorAll('.draggable');
 const iconsToSave = document.querySelectorAll('.draggable-icon');
 const bioPage = document.getElementById('page-bio');
 const closeButton = bioPage.querySelector('.close-button');
+const homeLinks = document.querySelectorAll('.home-link');
 
 // Variabili per la logica di trascinamento
 let activeElement = null;
 let offsetX = 0;
 let offsetY = 0;
-
 let isDragging = false;
 let startX, startY;
 
-// Funzione per salvare le posizioni solo delle icone persistenti
+// Funzione per salvare le posizioni
 function savePositions() {
     const positions = {};
     iconsToSave.forEach(icon => {
@@ -24,7 +26,7 @@ function savePositions() {
     localStorage.setItem('iconPositions', JSON.stringify(positions));
 }
 
-// Funzione per caricare le posizioni solo delle icone persistenti
+// Funzione per caricare le posizioni
 function loadPositions() {
     const savedPositions = JSON.parse(localStorage.getItem('iconPositions'));
     if (savedPositions) {
@@ -43,7 +45,6 @@ draggables.forEach(elem => {
     elem.addEventListener('touchstart', startDrag, { passive: false });
 });
 
-// Funzione che si attiva all'inizio del trascinamento
 function startDrag(e) {
     activeElement = e.currentTarget;
     isDragging = false;
@@ -54,7 +55,6 @@ function startDrag(e) {
 
     startX = clientX;
     startY = clientY;
-
     offsetX = clientX - activeElement.offsetLeft;
     offsetY = clientY - activeElement.offsetTop;
 
@@ -64,7 +64,6 @@ function startDrag(e) {
     document.addEventListener('touchend', endDrag);
 }
 
-// Funzione che gestisce il movimento durante il trascinamento
 function drag(e) {
     if (!activeElement) return;
     activeElement.classList.add('dragging');
@@ -73,7 +72,6 @@ function drag(e) {
     const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
     const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
 
-    // Controlla se il movimento è abbastanza ampio da essere considerato un trascinamento
     if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
         isDragging = true;
     }
@@ -85,18 +83,22 @@ function drag(e) {
     activeElement.style.top = `${newY}px`;
 }
 
-// Funzione che si attiva alla fine del trascinamento
 function endDrag() {
     if (!activeElement) return;
 
-    // Logica per il click (solo per le icone, non per il logo)
-    if (!isDragging && activeElement.classList.contains('draggable-icon')) {
-        if (activeElement.id === 'icon2') {
+    const isIcon = activeElement.classList.contains('draggable-icon');
+
+    // Logica per il click (solo per le icone)
+    if (isIcon && !isDragging) {
+        if (activeElement.id === 'icon1') { // Click su Progetti
+            homeContainer.classList.add('hidden');
+            progettiContainer.classList.remove('hidden');
+        } else if (activeElement.id === 'icon2') { // Click su Bio
             bioPage.classList.add('visible');
         }
     }
-    // Logica per il salvataggio della posizione (solo per le icone, non per il logo)
-    else if (isDragging && activeElement.classList.contains('draggable-icon')) {
+    // Logica per il salvataggio della posizione (solo per le icone persistenti)
+    else if (isIcon && isDragging) {
         savePositions();
     }
 
@@ -114,17 +116,23 @@ closeButton.addEventListener('click', () => {
     bioPage.classList.remove('visible');
 });
 
+// Aggiunge l'evento per i link "home"
+homeLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        progettiContainer.classList.add('hidden');
+        homeContainer.classList.remove('hidden');
+    });
+});
+
 // Esegue il codice quando il contenuto della pagina è stato caricato
 document.addEventListener('DOMContentLoaded', () => {
-    // Carica le posizioni salvate
     loadPositions();
 
-    // Gestisce l'indicazione "drag & drop"
     const dragHint = document.getElementById('drag-hint');
     if (dragHint) {
-        // Imposta un timer per far scomparire l'indicazione dopo 5 secondi
         setTimeout(() => {
             dragHint.classList.add('fade-out');
-        }, 5000); 
+        }, 5000);
     }
 });
