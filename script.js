@@ -1,134 +1,149 @@
-// Seleziona gli elementi dal DOM
-const homeContainer = document.getElementById('home-container');
-const progettiContainer = document.getElementById('progetti-container');
-const draggables = document.querySelectorAll('.draggable');
-const iconsToSave = document.querySelectorAll('.draggable-icon');
-const bioPage = document.getElementById('page-bio');
-const closeButton = bioPage.querySelector('.close-button');
-const homeLinks = document.querySelectorAll('.home-link');
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Selettori DOM ---
+    const homeContainer = document.getElementById('home-container');
+    const progettiContainer = document.getElementById('progetti-container');
+    const projectDetailContainer = document.getElementById('project-detail-container');
+    const draggables = document.querySelectorAll('.draggable');
+    const iconsToSave = document.querySelectorAll('.draggable-icon');
+    const bioPage = document.getElementById('page-bio');
+    const closeButton = bioPage.querySelector('.close-button');
+    const homeLinks = document.querySelectorAll('.home-link');
+    const projectLinks = document.querySelectorAll('.project-item');
+    const backToProjectsLink = document.querySelector('.back-to-projects');
+    const articlePlaceholder = document.getElementById('article-content-placeholder');
 
-// Variabili per la logica di trascinamento
-let activeElement = null;
-let offsetX = 0;
-let offsetY = 0;
-let isDragging = false;
-let startX, startY;
+    // --- Logica di Trascinamento ---
+    let activeElement = null;
+    let offsetX = 0, offsetY = 0, isDragging = false, startX, startY;
 
-// Funzione per salvare le posizioni
-function savePositions() {
-    const positions = {};
-    iconsToSave.forEach(icon => {
-        positions[icon.id] = {
-            left: icon.style.left,
-            top: icon.style.top
-        };
-    });
-    localStorage.setItem('iconPositions', JSON.stringify(positions));
-}
-
-// Funzione per caricare le posizioni
-function loadPositions() {
-    const savedPositions = JSON.parse(localStorage.getItem('iconPositions'));
-    if (savedPositions) {
+    function savePositions() {
+        const positions = {};
         iconsToSave.forEach(icon => {
-            if (savedPositions[icon.id]) {
-                icon.style.left = savedPositions[icon.id].left;
-                icon.style.top = savedPositions[icon.id].top;
-            }
+            positions[icon.id] = { left: icon.style.left, top: icon.style.top };
         });
-    }
-}
-
-// Aggiunge gli event listener a ogni elemento trascinabile
-draggables.forEach(elem => {
-    elem.addEventListener('mousedown', startDrag);
-    elem.addEventListener('touchstart', startDrag, { passive: false });
-});
-
-function startDrag(e) {
-    activeElement = e.currentTarget;
-    isDragging = false;
-
-    const isTouchEvent = e.type === 'touchstart';
-    const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
-    const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
-
-    startX = clientX;
-    startY = clientY;
-    offsetX = clientX - activeElement.offsetLeft;
-    offsetY = clientY - activeElement.offsetTop;
-
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', endDrag);
-    document.addEventListener('touchmove', drag, { passive: false });
-    document.addEventListener('touchend', endDrag);
-}
-
-function drag(e) {
-    if (!activeElement) return;
-    activeElement.classList.add('dragging');
-
-    const isTouchEvent = e.type === 'touchmove';
-    const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
-    const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
-
-    if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
-        isDragging = true;
+        localStorage.setItem('iconPositions', JSON.stringify(positions));
     }
 
-    let newX = clientX - offsetX;
-    let newY = clientY - offsetY;
+    function loadPositions() {
+        const savedPositions = JSON.parse(localStorage.getItem('iconPositions'));
+        if (savedPositions) {
+            iconsToSave.forEach(icon => {
+                if (savedPositions[icon.id]) {
+                    icon.style.left = savedPositions[icon.id].left;
+                    icon.style.top = savedPositions[icon.id].top;
+                }
+            });
+        }
+    }
 
-    activeElement.style.left = `${newX}px`;
-    activeElement.style.top = `${newY}px`;
-}
+    draggables.forEach(elem => {
+        elem.addEventListener('mousedown', startDrag);
+        elem.addEventListener('touchstart', startDrag, { passive: false });
+    });
 
-function endDrag() {
-    if (!activeElement) return;
+    function startDrag(e) {
+        activeElement = e.currentTarget;
+        isDragging = false;
+        const isTouchEvent = e.type === 'touchstart';
+        const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
+        startY = clientY;
+        offsetX = clientX - activeElement.offsetLeft;
+        offsetY = clientY - activeElement.offsetTop;
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', endDrag);
+    }
 
-    const isIcon = activeElement.classList.contains('draggable-icon');
+    function drag(e) {
+        if (!activeElement) return;
+        const isTouchEvent = e.type === 'touchmove';
+        const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
+        if (!isDragging && (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5)) {
+            isDragging = true;
+            activeElement.classList.add('dragging');
+        }
+        if (isDragging) {
+            activeElement.style.left = `${clientX - offsetX}px`;
+            activeElement.style.top = `${clientY - offsetY}px`;
+        }
+    }
 
-    // Logica per il click (solo per le icone)
-    if (isIcon && !isDragging) {
-        if (activeElement.id === 'icon1') { // Click su Progetti
-            homeContainer.classList.add('hidden');
-            progettiContainer.classList.remove('hidden');
-        } else if (activeElement.id === 'icon2') { // Click su Bio
+    function endDrag() {
+        if (!activeElement) return;
+        const isIcon = activeElement.classList.contains('draggable-icon');
+        if (isIcon && !isDragging) {
+            handleIconClick(activeElement.id);
+        } else if (isIcon && isDragging) {
+            savePositions();
+        }
+        activeElement.classList.remove('dragging');
+        activeElement = null;
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', endDrag);
+        document.removeEventListener('touchmove', drag);
+        document.removeEventListener('touchend', endDrag);
+    }
+
+    // --- Logica di Navigazione ---
+    function handleIconClick(iconId) {
+        if (iconId === 'icon1') {
+            showPage(progettiContainer);
+        } else if (iconId === 'icon2') {
             bioPage.classList.add('visible');
         }
     }
-    // Logica per il salvataggio della posizione (solo per le icone persistenti)
-    else if (isIcon && isDragging) {
-        savePositions();
+
+    function showPage(pageToShow) {
+        [homeContainer, progettiContainer, projectDetailContainer].forEach(p => p.classList.add('hidden'));
+        pageToShow.classList.remove('hidden');
+        pageToShow.scrollTop = 0;
     }
 
-    activeElement.classList.remove('dragging');
-    activeElement = null;
+    closeButton.addEventListener('click', () => bioPage.classList.remove('visible'));
 
-    document.removeEventListener('mousemove', drag);
-    document.removeEventListener('mouseup', endDrag);
-    document.removeEventListener('touchmove', drag);
-    document.removeEventListener('touchend', endDrag);
-}
-
-// Aggiunge l'evento per chiudere la pagina della bio
-closeButton.addEventListener('click', () => {
-    bioPage.classList.remove('visible');
-});
-
-// Aggiunge l'evento per i link "home"
-homeLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        progettiContainer.classList.add('hidden');
-        homeContainer.classList.remove('hidden');
+    homeLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage(homeContainer);
+        });
     });
-});
 
-// Esegue il codice quando il contenuto della pagina è stato caricato
-document.addEventListener('DOMContentLoaded', () => {
+    projectLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const projectId = link.dataset.projectId;
+            loadProjectArticle(projectId);
+        });
+    });
+    
+    backToProjectsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage(progettiContainer);
+    });
+
+    async function loadProjectArticle(projectId) {
+        const filePath = `progetti/${projectId}.html`;
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            const articleHtml = await response.text();
+            articlePlaceholder.innerHTML = articleHtml;
+            showPage(projectDetailContainer);
+        } catch (error) {
+            console.error('Error fetching project article:', error);
+            articlePlaceholder.innerHTML = `<p>Spiacenti, non è stato possibile caricare il progetto.</p>`;
+            showPage(projectDetailContainer);
+        }
+    }
+
+    // --- Inizializzazione ---
     loadPositions();
-
     const dragHint = document.getElementById('drag-hint');
     if (dragHint) {
         setTimeout(() => {
