@@ -335,7 +335,7 @@ body {
     box-sizing: border-box;
 }
         
-.back-to-projects {
+.back-to-projects, .back-to-home {
     display: inline-block;
     margin-bottom: 40px;
     text-decoration: none;
@@ -343,7 +343,7 @@ body {
     font-weight: 500;
 }
         
-.back-to-projects:hover {
+.back-to-projects:hover, .back-to-home:hover {
     text-decoration: underline;
 }
         
