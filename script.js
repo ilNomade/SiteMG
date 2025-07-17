@@ -126,7 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function loadProjectArticle(projectId) {
-        const filePath = `projects/${projectId}.html`; // CORRETTO
+        // MODIFICATO: Il percorso ora punta a un file index.html dentro una cartella specifica
+        const filePath = `projects/${projectId}/index.html`;
         try {
             const response = await fetch(filePath);
             if (!response.ok) {
@@ -137,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showPage(projectDetailContainer);
         } catch (error) {
             console.error('Error fetching project article:', error);
-            articlePlaceholder.innerHTML = `<p>Spiacenti, non è stato possibile caricare il progetto.</p>`;
+            articlePlaceholder.innerHTML = `<p>Spiacenti, non è stato possibile caricare il progetto. Controlla che il percorso sia corretto.</p>`;
             showPage(projectDetailContainer);
         }
     }
