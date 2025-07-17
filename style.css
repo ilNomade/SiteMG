@@ -1,0 +1,321 @@
+/* Stili di base per la pagina */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    height: 100vh;
+    background-color: #e0e0e0;
+    overflow: hidden;
+    color: #1c1e21;
+}
+
+/* Contenitore per le pagine (permette di nasconderle/mostrarle) */
+.page-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: auto; /* Permette lo scroll se il contenuto è lungo */
+}
+.hidden {
+    display: none;
+}
+
+/* Il contenitore "desktop" che riempie la pagina */
+.desktop {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Stile generico per tutti gli elementi trascinabili */
+.draggable {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.draggable.dragging {
+    cursor: grabbing;
+    z-index: 1000;
+}
+
+/* Stile specifico per le icone */
+.draggable-icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.draggable-icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.draggable-icon.dragging {
+     background-color: rgba(0, 0, 0, 0.08);
+}
+
+.draggable-icon .icon-visual {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+}
+
+.draggable-icon .icon-label {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+}
+
+/* Stile per il logo centrale */
+.main-logo {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main-logo img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Posizioni iniziali delle icone */
+#icon1 { top: 50px; left: 50px; }
+#icon2 { top: 50px; left: 180px; }
+       
+/* Stile per i link a piè di pagina */
+.footer-links {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    z-index: 100;
+}
+
+.footer-links a {
+    color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    padding: 0 15px;
+    position: relative;
+}
+
+.footer-links a:not(:last-child)::after {
+    content: '/';
+    position: absolute;
+    right: -2px;
+    color: #000;
+}
+
+.footer-links a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Stile per la pagina overlay (Bio) */
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.page-overlay.visible {
+    display: flex;
+    opacity: 1;
+}
+
+.page-content {
+    max-width: 600px;
+    padding: 40px;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.close-button:hover {
+    transform: scale(1.1);
+}
+
+/* Stili per la pagina Bio in stile README */
+.page-content {
+    text-align: left;
+    font-size: 1em;
+    line-height: 1.7;
+}
+
+.page-content h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+}
+
+.page-content h4 {
+    font-size: 1.3em;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.page-content p {
+    margin-bottom: 20px;
+}
+
+.page-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.page-content ul li {
+    margin-bottom: 8px;
+    padding-left: 25px;
+    position: relative;
+}
+
+.page-content ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #fff;
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+.page-content code {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    padding: 3px 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95em;
+    margin-right: 5px;
+}
+
+/* Indicazione Drag & Drop */
+#drag-hint {
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    display: flex;
+    align-items: center;
+    color: #000;
+    z-index: 9999;
+    animation: fadeIn 0.5s 0.2s ease-out forwards;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#drag-hint.fade-out {
+    animation: fadeOut 0.5s ease-in forwards;
+}
+
+#drag-hint span {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+#drag-hint svg {
+    width: 32px;
+    height: 32px;
+    transform: rotate(180deg);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(10px); }
+}
+
+/* Stili per la pagina Progetti (Stile GitHub) */
+.projects-list-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 40px 120px 40px; /* Aumentato padding per footer */
+    box-sizing: border-box;
+    color: #000;
+}
+
+.projects-list-container h2 {
+    font-size: 2em;
+    font-weight: 500;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d0d7de;
+}
+
+.projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 24px 0;
+    border-bottom: 1px solid #d0d7de;
+}
+
+.project-icon {
+    margin-right: 16px;
+    margin-top: 2px;
+    color: #57606a;
+}
+
+.project-details h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.4em;
+    font-weight: 500;
+}
+
+.project-details h3 a {
+    text-decoration: none;
+    color: #0969da;
+}
+
+.project-details h3 a:hover {
+    text-decoration: underline;
+}
+
+.project-details p {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.6;
+    color: #57606a;
+}

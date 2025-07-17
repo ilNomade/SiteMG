@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Giuseppe Martone</title>
+    
+    <!-- Collegamento al file CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Caricamento del font da Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Contenitore per la Home Page -->
+    <div id="home-container" class="page-container">
+        <div id="desktop-home" class="desktop">
+            <!-- Indicazione Drag & Drop -->
+            <div id="drag-hint">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M15 21h4a2 2 0 0 0 2-2v-4"/><path d="M9 3H5a2 2 0 0 0-2 2v4"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><path d="m15 12-3-3-3 3"/><path d="M12 15V9"/></svg>
+                <span>drag & drop</span>
+            </div>
+
+            <!-- Logo centrale trascinabile -->
+            <div id="main-logo-home" class="draggable main-logo">
+                <img src="logo.png" alt="Logo principale">
+            </div>
+
+            <!-- Icona "Progetti" -->
+            <div id="icon1" class="draggable draggable-icon">
+                <div class="icon-visual">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <div class="icon-label">Progetti</div>
+            </div>
+
+            <!-- Icona "Bio" -->
+            <div id="icon2" class="draggable draggable-icon">
+                <div class="icon-visual">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+                <div class="icon-label">Bio</div>
+            </div>
+        </div>
+        <!-- Link a piè di pagina per la Home -->
+        <div class="footer-links">
+            <a href="#" class="home-link">home</a>
+            <a href="https://www.linkedin.com/in/giuseppe-martone-569b42313/" target="_blank">linkedin</a>
+            <a href="mailto:gpp.martone@gmail.com">mail</a>
+        </div>
+    </div>
+
+    <!-- Contenitore per la Pagina Progetti -->
+    <div id="progetti-container" class="page-container hidden">
+        <div class="projects-list-container">
+            <h2>Progetti</h2>
+            <ul class="projects-list">
+                <li class="project-item">
+                    <div class="project-icon">
+                        <svg viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 0 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5v-9Z"></path><path fill="currentColor" d="M4.5 1A1.5 1.5 0 0 0 3 2.5v9a1.5 1.5 0 0 0 1.5 1.5h8A1.5 1.5 0 0 0 14 11.5v-9A1.5 1.5 0 0 0 12.5 1h-8Z"></path></svg>
+                    </div>
+                    <div class="project-details">
+                        <h3>
+                            <a href="#">Sistema Caricabatteria per misuratore di energia in ambito ferroviario</a>
+                        </h3>
+                        <p>Sviluppo e progettazione di un sistema di ricarica per dispositivi di misurazione energetica utilizzati su convogli ferroviari.</p>
+                    </div>
+                </li>
+                <!-- Altri progetti possono essere aggiunti qui -->
+            </ul>
+        </div>
+        <!-- Link a piè di pagina per i Progetti -->
+        <div class="footer-links">
+            <a href="#" class="home-link">home</a>
+            <a href="https://www.linkedin.com/in/giuseppe-martone-569b42313/" target="_blank">linkedin</a>
+            <a href="mailto:gpp.martone@gmail.com">mail</a>
+        </div>
+    </div>
+
+
+    <!-- Pagina Bio (overlay) -->
+    <div id="page-bio" class="page-overlay">
+        <button class="close-button">&times;</button>
+        <div class="page-content">
+            <h3>Giuseppe Martone</h3>
+            <p>Laureato in Ingegneria Elettronica con una solida base teorica e pratica nel campo dell'elettronica, dei sistemi di automazione e della progettazione di circuiti.</p>
+            
+            <h4>Competenze Principali</h4>
+            <ul>
+                <li>Progettazione di circuiti analogici e digitali</li>
+                <li>Programmazione di microcontrollori (C/C++)</li>
+                <li>Sistemi di controllo e automazione industriale</li>
+                <li>Analisi e simulazione di circuiti</li>
+            </ul>
+        
+            <h4>Tecnologie</h4>
+            <code>Labview</code><code>MATLAB</code><code>Arduino</code><code>LTspice</code>
+        </div>
+    </div>
+
+    <!-- Collegamento al file JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
