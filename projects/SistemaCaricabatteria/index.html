@@ -1,10 +1,62 @@
-<h1>Sistema Caricabatteria per Misuratore di Energia Ferroviario</h1>
-<p><em>Sviluppo e progettazione di un sistema di ricarica per dispositivi di misurazione energetica.</em></p>
-<hr>
-<p>Questo progetto, sviluppato come tesi di laurea, si è concentrato sulla creazione di un sistema di ricarica innovativo per misuratori di energia a bordo dei treni. L'obiettivo principale era garantire un'alimentazione continua e affidabile, superando le sfide poste dall'ambiente ferroviario, come le vibrazioni e le fluttuazioni di tensione.</p>
-<h4>Fasi del Progetto</h4>
-<p><strong>1. Analisi dei Requisiti:</strong> Studio delle normative ferroviarie e delle specifiche tecniche dei misuratori di energia per definire i parametri di progettazione.</p>
-<p><strong>2. Progettazione del Circuito:</strong> Sviluppo di un circuito di ricarica basato su un convertitore DC/DC di tipo buck-boost, capace di gestire un ampio range di tensioni di ingresso.</p>
-<p><strong>3. Simulazione:</strong> Utilizzo di software come LTspice per simulare il comportamento del circuito in diverse condizioni operative e ottimizzarne le performance.</p>
-<p><strong>4. Prototipazione e Test:</strong> Realizzazione di un prototipo funzionante e conduzione di test di laboratorio per validare l'efficienza, la stabilità termica e la robustezza del sistema.</p>
+
+    <h1>Realizzazione e Caratterizzazione di un Sistema Caricabatteria per un Misuratore di Energia in Ambito Ferroviario</h1>
+    [cite_start]<p>Negli ultimi anni, la ricerca di soluzioni energetiche sostenibili ha spinto verso sistemi di alimentazione sempre più efficienti[cite: 34]. [cite_start]In questo contesto, l'ottimizzazione dei circuiti di alimentazione per dispositivi elettronici è fondamentale per garantire prestazioni elevate e ridurre i consumi[cite: 35]. [cite_start]Questo articolo descrive la realizzazione e la caratterizzazione di un sistema di alimentazione per un misuratore di energia in ambito ferroviario, sviluppato utilizzando le tecnologie <strong>LT3652</strong> e <strong>LTC3646</strong>[cite: 36].</p>
+
+    <hr>
+
+    <h2>Il Contesto: Sistemi Ferroviari e Misura dell'Energia</h2>
+    [cite_start]<p>Il sistema di trazione elettrica in Italia si basa principalmente su una linea a <strong>3 kV in corrente continua</strong>[cite: 48]. [cite_start]L'energia viene prelevata dalla rete di trasmissione nazionale, convertita in apposite sottostazioni elettriche (SSE) e distribuita ai treni tramite la linea di contatto[cite: 72, 73]. [cite_start]Il treno, attraverso il pantografo, preleva l'energia necessaria alla trazione[cite: 256].</p>
+    [cite_start]<p>Per la fatturazione e la gestione dei consumi, a bordo del treno è installato un <strong>Sistema di Misurazione dell'Energia (EMS)</strong>, regolamentato dalla norma europea EN 50463[cite: 307, 308]. [cite_start]Questo sistema è composto da diverse funzioni[cite: 333]:</p>
+    <ul>
+        [cite_start]<li><strong>Funzione di misurazione dell'energia (EMF)</strong>, che misura tensione e corrente[cite: 315, 377].</li>
+        [cite_start]<li><strong>Funzione di calcolo dell'energia (ECF)</strong>, che elabora i dati per determinare l'energia consumata e rigenerata[cite: 319].</li>
+        [cite_start]<li><strong>Sistema di gestione dei dati (DHS)</strong>, che archivia e trasmette i dati raccolti[cite: 324].</li>
+    </ul>
+
+    <hr>
+
+    <h2>Progettazione del Sistema di Alimentazione</h2>
+    [cite_start]<p>Lo scopo di questo lavoro è stato quello di realizzare un sistema di alimentazione dedicato per un EMS, sfruttando la tensione proveniente dalla linea di contatto del treno[cite: 553]. [cite_start]Il sistema è stato sviluppato utilizzando due demo board di Linear Technology in cascata[cite: 557, 1079]:</p>
+    <ol>
+        [cite_start]<li><strong>DC1568A con chip LT3652EDD</strong>: un caricabatterie step-down per la gestione della batteria[cite: 557, 559].</li>
+        [cite_start]<li><strong>DC1820A-A con chip LTC3646</strong>: un convertitore DC-DC step-down per alimentare il carico finale[cite: 557, 561].</li>
+    </ol>
+    [cite_start]<p>L'architettura complessiva prevede che un primo stadio riduca la tensione dai 3000 V della linea di contatto a 24 V. Questa tensione alimenta il nostro sistema, che a sua volta gestisce la carica di una batteria e fornisce un'uscita stabile a 5 V per il carico[cite: 562, 563, 564, 565, 566, 567, 568].</p>
+    
+    <h3>Il Caricabatteria LT3652</h3>
+    [cite_start]<p>Il circuito integrato LT3652 è un caricabatterie che opera con una tensione di ingresso tra 4,95 V e 32 V[cite: 559]. [cite_start]Il processo di carica avviene in tre fasi: carica a corrente costante, carica a tensione costante e terminazione[cite: 576, 577]. [cite_start]Una volta completata la carica, il dispositivo entra in una modalità standby a basso consumo, monitorando costantemente la tensione della batteria per avviare un nuovo ciclo se necessario[cite: 607, 608]. [cite_start]Include anche un sistema di monitoraggio della temperatura per garantire la sicurezza della batteria durante la carica[cite: 609, 610, 611].</p>
+    
+    <h3>Il Convertitore Step-Down LTC3646</h3>
+    [cite_start]<p>Il convertitore LTC3646 è un regolatore buck sincrono che accetta in ingresso una tensione da 4 V a 40 V e fornisce in uscita una tensione regolata[cite: 562]. [cite_start]Questo componente è stato scelto per la sua capacità di mantenere una frequenza di funzionamento stabile anche con un rapporto di step-down elevato, il che garantisce un'alimentazione pulita e costante al carico finale[cite: 813].</p>
+
+    <hr>
+
+    <h2>Test e Caratterizzazione Sperimentale</h2>
+    [cite_start]<p>Per validare il sistema, sono stati condotti test approfonditi sia sui singoli moduli sia sul sistema completo, utilizzando un banco di prova appositamente allestito[cite: 1086, 1087, 1091].</p>
+
+    <h3>Test di Funzionamento</h3>
+    [cite_start]<p>I test iniziali sono stati eseguiti per verificare il comportamento dei circuiti in diversi scenari operativi[cite: 1135]. Per il modulo caricabatteria (LT3652), sono state simulate le seguenti condizioni:</p>
+    <ul>
+        [cite_start]<li><strong>Alimentazione della sola batteria:</strong> con il carico disattivato, il sistema ha caricato correttamente la batteria[cite: 1137, 1138, 1154].</li>
+        [cite_start]<li><strong>Alimentazione di batteria e carico:</strong> in condizioni operative standard, il sistema ha gestito simultaneamente entrambi i flussi di potenza[cite: 1155, 1176].</li>
+        [cite_start]<li><strong>Alimentazione del solo carico:</strong> una volta raggiunta la tensione di mantenimento, la batteria ha smesso di assorbire corrente e tutta l'energia è stata diretta al carico[cite: 1178, 1195].</li>
+        [cite_start]<li><strong>Assenza di alimentazione in ingresso:</strong> la batteria precedentemente caricata è subentrata per alimentare il carico, garantendo la continuità del servizio[cite: 1197, 1198, 1210].</li>
+    </ul>
+    [cite_start]<p>Successivamente, anche il sistema completo, con le due demo board in cascata, è stato sottoposto agli stessi test, confermando il corretto funzionamento in tutte le condizioni simulate[cite: 1275, 1276]. [cite_start]Ad esempio, nel caso di funzionamento tipico con una tensione di ingresso di 24 V, il sistema è stato in grado di alimentare sia la batteria con una potenza di circa 2 W sia il carico finale con 1 W[cite: 1398].</p>
+    
+    <h3>Caratterizzazione dell'Efficienza</h3>
+    <p>La fase successiva è stata la caratterizzazione sperimentale per misurare l'efficienza del sistema in diverse condizioni di carico e di assorbimento della batteria.</p>
+    
+    <h4>Modulo LT3652 (singolo)</h4>
+    [cite_start]<p>L'efficienza è stata calcolata come rapporto tra la potenza totale in uscita (carico + batteria) e la potenza in ingresso[cite: 1429]. [cite_start]I risultati hanno mostrato un'efficienza massima del <strong>98,6%</strong> in assenza di corrente di carica della batteria[cite: 1431]. [cite_start]L'efficienza tendeva a diminuire con basse correnti di batteria (fino al 70%) per poi risalire all'aumentare della corrente stessa, mostrando un comportamento con buona approssimazione lineare[cite: 1432, 1447].</p>
+
+    <h4>Circuito Completo (LT3652 + LTC3646)</h4>
+    [cite_start]<p>Con le due schede in cascata, l'efficienza è risultata inferiore, specialmente a basse potenze di uscita e con correnti di batteria ridotte, scendendo fino al <strong>50%</strong>[cite: 1608]. [cite_start]Questo è dovuto al fatto che il secondo stadio (LTC3646) non operava nelle sue condizioni ottimali, ricevendo una tensione di 24 V invece dei 5 V per cui è ottimizzato[cite: 1614]. [cite_start]Tuttavia, l'efficienza del sistema completo ha mostrato un netto miglioramento all'aumentare della corrente assorbita dalla batteria, raggiungendo un valore superiore all'<strong>83%</strong> con una corrente di 650 mA e una potenza di uscita di 3 W[cite: 1609, 1738].</p>
+
+    <hr>
+
+    <h2>Conclusioni e Sviluppi Futuri</h2>
+    [cite_start]<p>I test hanno confermato con successo il funzionamento del sistema di alimentazione in condizioni operative reali e simulate[cite: 1761]. [cite_start]Nonostante una leggera perdita di efficienza a basse potenze in uscita, i risultati sono da considerarsi positivi[cite: 1771]. [cite_start]In un'applicazione ferroviaria l'abbondanza di energia rende l'efficienza un parametro meno critico rispetto all'affidabilità e alla stabilità del sistema[cite: 1772, 1773].</p>
+    [cite_start]<p>Il principale sviluppo futuro consisterà nell'integrazione di tutti i componenti su un'unica <strong>scheda a circuito stampato (PCB)</strong>[cite: 1775]. [cite_start]Questa evoluzione permetterà di ridurre le dimensioni, migliorare la gestione termica e ottimizzare ulteriormente le prestazioni, rappresentando una solida base per future applicazioni pratiche[cite: 1776, 1777].</p>
+    
 <!-- Qui potrai aggiungere le tue immagini, ad esempio: <img src="foto_circuito.jpg" alt="Foto del circuito"> -->
