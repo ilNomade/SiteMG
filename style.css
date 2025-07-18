@@ -63,8 +63,8 @@ body {
 }
 
 .draggable-icon .icon-visual {
-    width: 80px; /* MODIFICATO */
-    height: 80px; /* MODIFICATO */
+    width: 150px; /* MODIFICATO */
+    height: 150px; /* MODIFICATO */
     display: flex;
     align-items: center;
     justify-content: center;
