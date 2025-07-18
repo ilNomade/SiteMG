@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectLinks = document.querySelectorAll('.project-item');
     const backToProjectsLink = document.querySelector('.back-to-projects');
     const articlePlaceholder = document.getElementById('article-content-placeholder');
+    // NUOVI SELETTORI per il Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCloseButton = document.querySelector('.lightbox-close-button');
+
 
     // --- Logica di Trascinamento ---
     let activeElement = null;
@@ -126,29 +131,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function loadProjectArticle(projectId) {
-        // MODIFICATO: Il percorso ora punta a un file index.html dentro una cartella specifica
         const filePath = `projects/${projectId}/index.html`;
         try {
             const response = await fetch(filePath);
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
+            if (!response.ok) throw new Error('Network response was not ok.');
+            
             const articleHtml = await response.text();
             articlePlaceholder.innerHTML = articleHtml;
+            
+            // NUOVO: Aggiunge gli event listener alle immagini caricate
+            articlePlaceholder.querySelectorAll('img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightbox.classList.add('visible');
+                    lightboxImg.src = img.src;
+                });
+            });
+
             showPage(projectDetailContainer);
         } catch (error) {
             console.error('Error fetching project article:', error);
-            articlePlaceholder.innerHTML = `<p>Spiacenti, non è stato possibile caricare il progetto. Controlla che il percorso sia corretto.</p>`;
+            articlePlaceholder.innerHTML = `<p>Spiacenti, non è stato possibile caricare il progetto.</p>`;
             showPage(projectDetailContainer);
         }
     }
+
+    // NUOVO: Logica per chiudere il Lightbox
+    lightboxCloseButton.addEventListener('click', () => {
+        lightbox.classList.remove('visible');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) { // Chiude solo se si clicca sullo sfondo
+            lightbox.classList.remove('visible');
+        }
+    });
+
 
     // --- Inizializzazione ---
     loadPositions();
     const dragHint = document.getElementById('drag-hint');
     if (dragHint) {
         setTimeout(() => {
-            dragHint.classList.add('fade-out');
+            drag-hint.classList.add('fade-out');
         }, 5000);
     }
 });
