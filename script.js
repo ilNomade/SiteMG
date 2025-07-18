@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectLinks = document.querySelectorAll('.project-item');
     const backToProjectsLink = document.querySelector('.back-to-projects');
     const articlePlaceholder = document.getElementById('article-content-placeholder');
-    // NUOVI SELETTORI per il Lightbox
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCloseButton = document.querySelector('.lightbox-close-button');
@@ -49,6 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function startDrag(e) {
         activeElement = e.currentTarget;
         isDragging = false;
+
+        // NUOVA LOGICA: Cambia l'immagine della cartella all'inizio del trascinamento
+        if (activeElement.id === 'icon1') {
+            const iconImage = activeElement.querySelector('img');
+            if (iconImage) {
+                iconImage.src = 'folderopen.png';
+            }
+        }
+
         const isTouchEvent = e.type === 'touchstart';
         const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
         const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
@@ -79,6 +87,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function endDrag() {
         if (!activeElement) return;
+
+        // NUOVA LOGICA: Ripristina l'immagine della cartella alla fine del trascinamento
+        if (activeElement.id === 'icon1') {
+            const iconImage = activeElement.querySelector('img');
+            if (iconImage) {
+                iconImage.src = 'folder.png';
+            }
+        }
+
         const isIcon = activeElement.classList.contains('draggable-icon');
         if (isIcon && !isDragging) {
             handleIconClick(activeElement.id);
@@ -139,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const articleHtml = await response.text();
             articlePlaceholder.innerHTML = articleHtml;
             
-            // NUOVO: Aggiunge gli event listener alle immagini caricate
             articlePlaceholder.querySelectorAll('img').forEach(img => {
                 img.addEventListener('click', () => {
                     lightbox.classList.add('visible');
@@ -155,13 +171,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // NUOVO: Logica per chiudere il Lightbox
+    // Logica per chiudere il Lightbox
     lightboxCloseButton.addEventListener('click', () => {
         lightbox.classList.remove('visible');
     });
 
     lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) { // Chiude solo se si clicca sullo sfondo
+        if (e.target === lightbox) {
             lightbox.classList.remove('visible');
         }
     });
@@ -172,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dragHint = document.getElementById('drag-hint');
     if (dragHint) {
         setTimeout(() => {
-            drag-hint.classList.add('fade-out');
+            dragHint.classList.add('fade-out');
         }, 5000);
     }
 });
