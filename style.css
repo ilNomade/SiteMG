@@ -372,4 +372,52 @@ body {
     height: auto;
     border-radius: 8px;
     margin: 30px 0;
+    cursor: pointer; /* Rende l'immagine cliccabile */
+    transition: opacity 0.2s ease;
+}
+
+#article-content-placeholder img:hover {
+    opacity: 0.8;
+}
+
+/* NUOVI STILI: Lightbox */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 3000;
+    display: none; /* Nascosto di default */
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.lightbox-overlay.visible {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.lightbox-close-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.lightbox-close-button:hover {
+    transform: scale(1.1);
 }
