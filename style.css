@@ -44,8 +44,8 @@ body {
 
 /* Stile specifico per le icone */
 .draggable-icon {
-    width: 100px;
-    height: 100px;
+    width: 120px; /* MODIFICATO */
+    height: 120px; /* MODIFICATO */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,15 +63,14 @@ body {
 }
 
 .draggable-icon .icon-visual {
-    width: 48px;
-    height: 48px;
+    width: 64px; /* MODIFICATO */
+    height: 64px; /* MODIFICATO */
     display: flex;
     align-items: center;
     justify-content: center;
     color: #000;
 }
 
-/* NUOVA REGOLA per le immagini delle icone */
 .draggable-icon .icon-visual img {
     width: 100%;
     height: 100%;
@@ -101,7 +100,7 @@ body {
 
 /* Posizioni iniziali delle icone */
 #icon1 { top: 50px; left: 50px; }
-#icon2 { top: 50px; left: 180px; }
+#icon2 { top: 50px; left: 200px; } /* Aumentata la distanza per non sovrapporsi */
        
 /* Stile per i link a piè di pagina */
 .footer-links {
